@@ -4,7 +4,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return {
-        "05/04/2026":"containerized the app, pushed to github, added github actions workflow to build the image, extended the workflow to also push image to docker hub."
+        "05/04/2026":"containerized the app, pushed to github, added github actions workflow to build the image, extended the workflow to also push image to docker hub, added a test stage to complement the pipeline."
     }
 
 if __name__ == "__main__":
