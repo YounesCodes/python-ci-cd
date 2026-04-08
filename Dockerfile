@@ -15,4 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# create and switch to new user to run commands - no root for security measures
+RUN adduser -D appuser
+USER appuser
+
 CMD ["python", "app.py"]

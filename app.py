@@ -10,6 +10,7 @@ def index():
     }
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    host = os.environ.get("FLASK_HOST", "0.0.0.0") # to avoid hardcoded 0.0.0.0
+    app.run(debug=False, host=host)
 
 
