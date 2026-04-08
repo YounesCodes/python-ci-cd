@@ -18,6 +18,10 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run tests
         run: pytest test_app.py -v
+      - name: Run Semgrep
+        run: |
+          pip install semgrep
+          semgrep --config auto . --error
 
   build_push_scan_deploy:
     runs-on: ubuntu-latest
