@@ -5,8 +5,11 @@ WORKDIR /app
 
 COPY requirements.txt .
 
+# upgrades alpine packages to latest versions (to fix zlib vuln)
+RUN apk update && apk upgrade
+
 # upgrade setuptools - contains vulns in packages (jaraco.context & wheel)
-RUN pip install --upgrade pip setuptools
+RUN pip install --upgrade pip setuptools wheel
 
 RUN pip install --no-cache-dir -r requirements.txt
 
