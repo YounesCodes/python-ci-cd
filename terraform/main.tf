@@ -85,5 +85,5 @@ resource "aws_security_group" "app_sg" {
 }
 
 output "public_dns" {
-    value = aws_instance.app.public_dns
+    value = aws_eip.app_eip.public_dns
 }
