@@ -2,6 +2,8 @@
 
 ![](pipeline_diagram.png)
 
+*TO DO: Update diagram to include Terraform*
+
 ## Pipeline
 
 The pipeline triggers on every push to master.
@@ -12,6 +14,7 @@ It automates the following, in order:
 - Docker image build
 - Image vulnerability scanning with Trivy
 - Image push to Docker Hub
+- Infrastructure provisioning with Terraform
 - Deployment on an EC2 instance
 
 ## Vulnerability findings
@@ -30,11 +33,11 @@ It automates the following, in order:
 
 | CVE | Package | Severity | Resolution |
 |---|---|---|---|
-| CVE-2025-69720 | ncurses | HIGH (Fails pipeline) | No fix available, suppressed with `ignore-unfixed: true` |
-| CVE-2026-29111 | systemd | HIGH (Fails pipeline) | No fix available, suppressed with `ignore-unfixed: true` |
-| CVE-2026-22184 | zlib | HIGH (Fails pipeline) | Fixed via `apk upgrade` |
-| CVE-2026-24049 | wheel | HIGH (Fails pipeline) | Fixed via `pip install --upgrade wheel` |
-| CVE-2026-23949 | jaraco.context | HIGH (Fails pipeline) | Fixed via `pip install --upgrade setuptools` |
+| CVE-2025-69720 | ncurses | HIGH | No fix available, suppressed with `ignore-unfixed: true` |
+| CVE-2026-29111 | systemd | HIGH | No fix available, suppressed with `ignore-unfixed: true` |
+| CVE-2026-22184 | zlib | HIGH | Fixed via `apk upgrade` |
+| CVE-2026-24049 | wheel | HIGH | Fixed via `pip install --upgrade wheel` |
+| CVE-2026-23949 | jaraco.context | HIGH | Fixed via `pip install --upgrade setuptools` |
 
 
 
