@@ -81,11 +81,11 @@ jobs:
         username: ec2-user
         key: ${{ secrets.EC2_KEY }}
         script: |
-          while ! command -v docker &> /dev/null; do echo "Waiting for Docker..."; sleep 10; done
-          docker stop myapp || true
-          docker stop myapp || true
-          docker rm myapp || true
-          docker rmi ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest || true
-          docker pull ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
-          docker run -d -p 80:5000 --name myapp ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
-          docker image prune -f
+          while ! sudo docker info &> /dev/null; do echo "Waiting for Docker..."; sleep 10; done
+          sudo docker stop myapp || true
+          sudo docker stop myapp || true
+          sudo docker rm myapp || true
+          sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest || true
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
+          sudo docker run -d -p 80:5000 --name myapp ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
+          sudo docker image prune -f
