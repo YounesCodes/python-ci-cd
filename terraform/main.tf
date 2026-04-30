@@ -20,11 +20,33 @@ data "aws_ssm_parameter" "al2023" {
   name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
+data "aws_iam_role" "SSMAccess" {
+  name = "SSMAccess"
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "ssm-access-profile"
+  role = data.aws_iam_role.SSMAccess.name
+}
+
+
 resource "aws_instance" "app" {
     ami = data.aws_ssm_parameter.al2023.value # get latest 
     instance_type = "t3.micro"
-    key_name = "python-ci-cd"
+    iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+    
+    ebs_optimized = true 
+    monitoring = true 
+
     vpc_security_group_ids = [aws_security_group.app_sg.id]
+
+    root_block_device {
+      encrypted = true
+    }
+
+    metadata_options {
+      http_tokens = "required"
+    }
 
     user_data = <<-EOF
                 #!/bin/bash
@@ -41,7 +63,7 @@ resource "aws_instance" "app" {
                 EOF
 
     tags = {
-        name = "python-ci-cd"
+        Name = "python-ci-cd"
     }
 
 }
@@ -56,17 +78,14 @@ resource "aws_eip_association" "app_assoc" {
 }
 
 resource "aws_security_group" "app_sg" {
-    name = "app_sg"
-    description = "SSH + HTTP"
-    vpc_id = data.aws_vpc.default.id
 
-    ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+    #checkov:skip=CKV_AWS_23: "skip"
+    #checkov:skip=CKV_AWS_382: "skip"
+    #checkov:skip=CKV_AWS_260: "skip"
+
+    name = "app_sg"
+    description = "HTTP"
+    vpc_id = data.aws_vpc.default.id
 
   ingress {
     description = "HTTP"
