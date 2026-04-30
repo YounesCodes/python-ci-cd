@@ -50,11 +50,10 @@ jobs:
     - name: Push the image
       run : docker push ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
 
-    - name : Run Checkov against main.tf 
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory: terraform
-        framework: terraform
+    - name: Run Checkov against main.tf
+      run: |
+        pip install checkov
+        checkov -d terraform --framework terraform
 
     - name: Configure AWS creds
       uses: aws-actions/configure-aws-credentials@v4
