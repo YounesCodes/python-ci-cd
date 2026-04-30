@@ -61,8 +61,14 @@ jobs:
       with:
         terraform_version: 1.14.8
         terraform_wrapper: false
+        
+    - name: Run Checkov against IaC files
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: terraform
+        framework: terraform 
 
-    - name: Terraform Validate, Plan and Apply
+    - name: Terraform Init, Validate, Plan and Apply
       run: |
         terraform init -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" -backend-config="key=project/terraform.tfstate" -backend-config="region=eu-north-1"
         terraform validate

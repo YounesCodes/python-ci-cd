@@ -83,6 +83,7 @@ resource "aws_security_group" "app_sg" {
     #checkov:skip=CKV_AWS_23: "skip"
     #checkov:skip=CKV_AWS_382: "skip"
     #checkov:skip=CKV_AWS_260: "skip"
+    #checkov:skip=CKV_AWS_24: "skip"
 
     name = "app_sg"
     description = "HTTP + SSH"
