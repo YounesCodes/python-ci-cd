@@ -59,17 +59,18 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: Terraform Init
-      run : terraform init -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" -backend-config="key=project/terraform.tfstate" -backend-config="region=eu-north-1"
-      working-directory: terraform
-
     - name: Run Checkov against main.tf
+      env:
+        TF_CLI_ARGS_init: -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" -backend-config="key=project/terraform.tfstate" -backend-config="region=eu-north-1"
       run: |
         pip install checkov
         checkov -d terraform --framework terraform
 
     - name: Terraform Validate, Plan and Apply
+      env:
+        TF_CLI_ARGS_init: -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" -backend-config="key=project/terraform.tfstate" -backend-config="region=eu-north-1"
       run: |
+        terraform init 
         terraform validate
         terraform plan -out=tfplan
         terraform apply -auto-approve tfplan
