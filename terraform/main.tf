@@ -34,6 +34,7 @@ resource "aws_instance" "app" {
     ami = data.aws_ssm_parameter.al2023.value # get latest 
     instance_type = "t3.micro"
     iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+    key_name = "python-ci-cd"
     
     ebs_optimized = true 
     monitoring = true 
@@ -84,7 +85,7 @@ resource "aws_security_group" "app_sg" {
     #checkov:skip=CKV_AWS_260: "skip"
 
     name = "app_sg"
-    description = "HTTP"
+    description = "HTTP + SSH"
     vpc_id = data.aws_vpc.default.id
 
   ingress {
