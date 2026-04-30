@@ -56,6 +56,12 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: eu-north-1
 
+    - name : Run Checkov against main.tf 
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: terraform
+        framework: terraform
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 

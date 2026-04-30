@@ -2,7 +2,6 @@
 
 ![](pipeline_diagram.png)
 
-*TO DO: Update diagram to include Terraform*
 
 ## Pipeline
 
@@ -14,6 +13,7 @@ It automates the following, in order:
 - Docker image build
 - Image vulnerability scanning with Trivy
 - Image push to Docker Hub
+- Scanning IaC files for misconfigurations with Checkov
 - Infrastructure provisioning with Terraform
 - Deployment on an EC2 instance
 
@@ -23,9 +23,9 @@ It automates the following, in order:
 
 | Finding | File | Severity | Resolution |
 |---|---|---|---|
-| Flask debug mode enabled | `app.py` | Blocking (Fails pipeline) | `debug=False` |
-| Hardcoded `host="0.0.0.0"` | `app.py` | Blocking (Fails pipeline) | Replaced with env var |
-| Container running as root | `Dockerfile` | Blocking (Fails pipeline) | Added non-root user `appuser` |
+| Flask debug mode enabled | `app.py` | Blocking | `debug=False` |
+| Hardcoded `host="0.0.0.0"` | `app.py` | Blocking | Replaced with env var |
+| Container running as root | `Dockerfile` | Blocking | Added non-root user `appuser` |
 
 ***Note :** Changed base image from python:3.11-slim (Debian-based) to python:3.11-alpine (lightweight) to avoid Debian package CVEs.*
 
