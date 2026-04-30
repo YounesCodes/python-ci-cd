@@ -106,6 +106,7 @@ resource "aws_security_group" "app_sg" {
   }
 
   egress {
+    description = "Allow all egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
