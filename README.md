@@ -23,9 +23,8 @@ It automates the following, in order:
 
 | Finding | File | Severity | Resolution |
 |---|---|---|---|
-| Flask debug mode enabled | `app.py` | Blocking | `debug=False` |
-| Hardcoded `host="0.0.0.0"` | `app.py` | Blocking | Replaced with env var |
-| Container running as root | `Dockerfile` | Blocking | Added non-root user `appuser` |
+| Dependabot missing cooldown | `.github/dependabot.yml` | Blocking | Added `cooldown` with `default-days: 7` to each `package-ecosystem` entry |
+| Mutable GitHub Actions tags | `.github/workflows/ci-cd.yaml` | Blocking | Pinned each action to its full commit SHA (version kept as comment) |
 
 ***Note :** Changed base image from python:3.11-slim (Debian-based) to python:3.11-alpine (lightweight) to avoid Debian package CVEs.*
 
@@ -33,11 +32,10 @@ It automates the following, in order:
 
 | CVE | Package | Severity | Resolution |
 |---|---|---|---|
-| CVE-2025-69720 | ncurses | HIGH | No fix available, suppressed with `ignore-unfixed: true` |
-| CVE-2026-29111 | systemd | HIGH | No fix available, suppressed with `ignore-unfixed: true` |
-| CVE-2026-22184 | zlib | HIGH | Fixed via `apk upgrade` |
-| CVE-2026-24049 | wheel | HIGH | Fixed via `pip install --upgrade wheel` |
-| CVE-2026-23949 | jaraco.context | HIGH | Fixed via `pip install --upgrade setuptools` |
+| GHSA-6v7p-g79w-8964 | msgpack 1.1.2 | HIGH | Pinned `msgpack>=1.2.1` in `requirements.txt` |
+| CVE-2025-47273 | setuptools 70.3.0 | HIGH | Pinned `setuptools>=78.1.1` in `requirements.txt` (on top of existing `pip install --upgrade setuptools` in `Dockerfile`) |
+| CVE-2026-97687 | urllib3 2.7.0 | HIGH | Pinned `urllib3>=2.8.0` in `requirements.txt` |
+| CVE-2026-97689 | urllib3 2.7.0 | HIGH | Same fix as above (`urllib3>=2.8.0`) |
 
 
 ## Infrastructure misconfig findings
