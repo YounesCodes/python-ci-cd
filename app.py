@@ -1,21 +1,24 @@
-from flask import Flask
-import os
+import requests
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
-app = Flask(__name__)
+app = FastAPI()
+URL = "https://blog.youneslab.xyz"
 
-@app.route("/")
+
+def is_up() -> bool:
+    try:
+        return requests.get(URL, timeout=5).status_code == 200
+    except requests.RequestException:
+        return False
+
+
+@app.get("/api/health")
+def health():
+    return {"up": is_up()}
+
+
+@app.get("/", response_class=HTMLResponse)
 def index():
-    return {
-        "05/04/2026": "containerized the app, pushed to github, added github actions workflow to build the image, extended the workflow to also push image to docker hub, added a test stage to complement the pipeline.",
-        "06/04/2026": "extended the workflow to deploy app on EC2 instance.",
-        "08/04/2026": "added security scanning with Trivy in the pipeline + semgrep SAST + fixed findings flagged by both.",
-        "09/04/2026": "modified ssh commands in pipeline to delete old images from instance and only keep latest to save storage.",
-        "15/04/2026": "added infrastructure as code with Terraform",
-        "30/04/2026": "added IaC files misconfig scanning with Checkov",
-    }
-
-if __name__ == "__main__":
-    host = os.environ.get("FLASK_HOST", "0.0.0.0") # to avoid hardcoded 0.0.0.0
-    app.run(debug=False, host=host)
-
-
+    up = is_up()
+    return f"<h1 style='font-family:sans-serif;text-align:center'>Blog is {'UP' if up else 'DOWN'}</h1>"

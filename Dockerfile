@@ -19,4 +19,6 @@ COPY . .
 RUN adduser -D appuser
 USER appuser
 
-CMD ["python", "app.py"]
+EXPOSE 8000
+
+CMD ["fastapi", "run", "app.py", "--port", "8000"]

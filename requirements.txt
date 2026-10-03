@@ -1,2 +1,4 @@
-flask
+fastapi[standard]
+requests
+httpx
 pytest
