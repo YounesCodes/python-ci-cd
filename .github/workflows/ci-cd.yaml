@@ -51,7 +51,7 @@ jobs:
       run : docker push ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
 
     - name: Configure AWS creds
-      uses: aws-actions/configure-aws-credentials@v4
+      uses: aws-actions/configure-aws-credentials@v6
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: eu-north-1
