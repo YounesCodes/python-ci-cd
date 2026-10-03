@@ -37,7 +37,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
     
     - name: Security scanning with Trivy
-      uses: aquasecurity/trivy-action@0.35.0
+      uses: aquasecurity/trivy-action@v0.36.0
       with:
         image-ref: ${{ secrets.DOCKER_USERNAME }}/python-ci-cd:latest
         severity: CRITICAL,HIGH
